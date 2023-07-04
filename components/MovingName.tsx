@@ -7,18 +7,21 @@ import { motion as m, useScroll, useTransform } from 'framer-motion';
 function MovingName() {
   let { scrollYProgress } = useScroll();
   let y = useTransform(scrollYProgress, [0, 1], ['0%', '40%']);
-  const firstText = useRef<HTMLElement>(null);
+  const firstText = useRef(null);
 
-  const secondText = useRef<HTMLElement>(null);
+  const secondText = useRef(null);
 
   const slider = useRef(null);
   let xPercent = 0;
 
   useEffect(() => {
-    gsap.set(secondText.current!, {
-      left: secondText.current!.getBoundingClientRect().width,
-    });
-    requestAnimationFrame(animate);
+    if (secondText.current) {
+      const element = secondText.current as HTMLElement;
+      gsap.set(element, {
+        left: element.getBoundingClientRect().width,
+      });
+      requestAnimationFrame(animate);
+    }
   }, []);
 
   let direction = -1;
